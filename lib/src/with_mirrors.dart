@@ -4,7 +4,6 @@
 
 part of htgen.static;
 
-@proxy
 class ElementBuilder {
   final String tag, prepend;
   final bool selfClosing;
@@ -28,29 +27,20 @@ class ElementBuilder {
   @override
   dynamic noSuchMethod(Invocation invocation) {
     final classes = new List<String>();
-    List children = [];
     String id;
-    String innerHtml;
 
     // Parse positional arguments.
-    var parsedSelector = false;
-    for (final arg in invocation.positionalArguments) {
-      if (arg is List) {
-        children = arg;
-      } else if (arg is String) {
-        if (!parsedSelector) {
-          try {
-            final sel = parseSelectorString(arg);
-            classes.addAll(sel.classes);
-            id = sel.id;
-            parsedSelector = true;
-          } catch (e) {
-            parsedSelector = true;
-            innerHtml = arg;
-          }
-        } else {
-          innerHtml = arg;
-        }
+    final pArgs = invocation.positionalArguments;
+    final children = new List.from(pArgs);
+
+    // If the first argument is a String, try to parse it as a selector. All
+    // other arguments are children.
+    if (pArgs.isNotEmpty && pArgs.first is String) {
+      final sel = parseSelectorString(pArgs.first);
+      if (sel.valid) {
+        children.removeAt(0);
+        classes.addAll(sel.classes);
+        id = sel.id;
       }
     }
 
@@ -77,7 +67,7 @@ class ElementBuilder {
 
     // Assign named parameter child list to children.
     if (named.containsKey(#c)) {
-      children = new List.from(named[#c]);
+      children.addAll(named[#c]);
     }
 
     // Process children (that is, collapse lists into each other).
@@ -98,22 +88,13 @@ class ElementBuilder {
     }
 
     final open = akeys.isEmpty ? tag : '$tag $attrsStr';
-    children.removeWhere((c) => c == null);
+    children.removeWhere((c) => c == null || !(c is String));
     if (children.isNotEmpty) {
       return '$prepend<$open>${children.join()}</$tag>';
-    } else if (innerHtml != null) {
-      return '$prepend<$open>$innerHtml</$tag>';
     } else {
       return selfClosing ? '$prepend<$open>' : '$prepend<$open></$tag>';
     }
   }
-}
-
-/// Helper for writing style attributes.
-String buildStyle(Map<String, dynamic> props) {
-  final k = props.keys.toList();
-  return new List<String>.generate(
-      k.length, (i) => '${k[i]}:${props[k[i]].toString()};').join();
 }
 
 // Element builders for regular elements.

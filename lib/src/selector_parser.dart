@@ -5,6 +5,7 @@
 library htgen.selector_parser;
 
 class Selector {
+  bool valid = false;
   String id;
   final classes = new List<String>();
 }
@@ -27,12 +28,13 @@ Selector parseSelectorString(String str) {
     final classMatch = classPattern.matchAsPrefix(strCpy);
 
     if (classMatch == null) {
-      throw new ArgumentError('invalid selector');
+      return sel;
     } else {
       sel.classes.add(classMatch.group(1));
       strCpy = strCpy.substring(sel.classes.last.length + 1);
     }
   }
 
+  sel.valid = true;
   return sel;
 }

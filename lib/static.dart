@@ -56,3 +56,10 @@ final ul = _getElementBuilder('ul');
 final svgDefs = _getElementBuilder('defs');
 final svgLinearGradient = _getElementBuilder('linearGradient');
 final svgStop = _getElementBuilder('stop');
+
+/// Helper for writing style attributes.
+String buildStyle(Map<String, dynamic> props) {
+  final k = props.keys.toList();
+  return new List<String>.generate(
+      k.length, (i) => '${k[i]}:${props[k[i]].toString()};').join();
+}
