@@ -79,7 +79,7 @@ T _createElement<T extends Element>(
 }
 
 typedef T ElementBuilder<T>(dynamic pArgs,
-    {Map<String, String> attrs, List<Element> c});
+    {Map<String, String> attrs, List<Element> c, EventListener onClick});
 
 /// Create element builder.
 ElementBuilder<T> _getElementBuilder<T extends Element>(String tag) {
