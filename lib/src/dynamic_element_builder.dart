@@ -83,7 +83,12 @@ typedef T ElementBuilder<T>(dynamic pArgs,
 
 /// Create element builder.
 ElementBuilder<T> _getElementBuilder<T extends Element>(String tag) {
-  return (dynamic pArgs, {Map<String, String> attrs, List<Element> c}) {
-    return _createElement(new Element.tag(tag), pArgs, attrs, c);
+  return (dynamic pArgs,
+      {Map<String, String> attrs, List<Element> c, EventListener onClick}) {
+    final element = _createElement(new Element.tag(tag), pArgs, attrs, c);
+    if (onClick != null) {
+      element.onClick.listen(onClick);
+    }
+    return element;
   };
 }
