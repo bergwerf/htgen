@@ -44,6 +44,7 @@ final span = _getElementBuilder('span');
 final style = _getElementBuilder('style');
 final svg = _getElementBuilder('svg');
 final table = _getElementBuilder('table');
+final textarea = _getElementBuilder('textarea');
 final tbody = _getElementBuilder('tbody');
 final td = _getElementBuilder('td');
 final th = _getElementBuilder('th');

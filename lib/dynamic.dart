@@ -44,6 +44,7 @@ final span = _getElementBuilder<SpanElement>('span');
 final style = _getElementBuilder<StyleElement>('style');
 final svg = _getElementBuilder<dart_svg.SvgElement>('svg');
 final table = _getElementBuilder<TableElement>('table');
+final textarea = _getElementBuilder<TableElement>('textarea');
 final tbody = _getElementBuilder<TableSectionElement>('tbody');
 final td = _getElementBuilder<TableCellElement>('td');
 final th = _getElementBuilder<TableCellElement>('th');
