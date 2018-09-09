@@ -19,7 +19,7 @@ void _unpackElementList(List list, List<Node> target) {
 
 /// Assign properties to DOM element.
 T _createElement<T extends Element>(
-    Element element, dynamic pArgs, Map<String, String> attrs, List<Node> c) {
+    Element element, pArgs, Map<String, String> attrs, List<Node> c) {
   final children = new List<Node>.from(c ?? []);
 
   // Add attributes.
@@ -27,7 +27,7 @@ T _createElement<T extends Element>(
 
   // Local helper for selector parsing.
   var parsedSelector = false;
-  final tryParseSelector = (String str) {
+  void tryParseSelector(String str) {
     if (!parsedSelector) {
       final sel = parseSelectorString(str);
       if (sel.valid) {
@@ -42,7 +42,7 @@ T _createElement<T extends Element>(
     } else {
       element.text = str;
     }
-  };
+  }
 
   // Process positional arguments.
   if (pArgs is List) {
@@ -73,17 +73,17 @@ T _createElement<T extends Element>(
   }
 
   // Add all children that are not null.
-  children.where((c) => c != null).forEach((c) => element.append(c));
+  children.where((c) => c != null).forEach(element.append);
 
   return element;
 }
 
-typedef T ElementBuilder<T>(dynamic pArgs,
+typedef T ElementBuilder<T>(pArgs,
     {Map<String, String> attrs, List<Element> c, EventListener onClick});
 
 /// Create element builder.
 ElementBuilder<T> _getElementBuilder<T extends Element>(String tag) {
-  return (dynamic pArgs,
+  return (pArgs,
       {Map<String, String> attrs, List<Element> c, EventListener onClick}) {
     final element = _createElement(new Element.tag(tag), pArgs, attrs, c);
     if (onClick != null) {

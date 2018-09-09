@@ -4,7 +4,7 @@
 
 import 'dart:html';
 
-import 'package:htgen/dynamic.dart';
+import 'package:htgen/dart2js.dart';
 
 void main() {
   document.body.append(div('#div.my-class', c: [

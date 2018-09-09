@@ -3,7 +3,7 @@
 // that can be found in the LICENSE file.
 
 import 'package:test/test.dart';
-import 'package:htgen/static.dart' as ht;
+import 'package:htgen/mirrors.dart' as ht;
 
 void main() {
   test('General', () {
