@@ -56,19 +56,22 @@ class ElementBuilder {
       children.addAll(named[#c]);
     }
 
-    // Process children (that is, collapse lists into each other).
-    var containedLists = true;
-    while (containedLists) {
-      containedLists = false;
+    // Flatten children.
+    var flattened = false;
+    while (!flattened) {
+      flattened = true;
       for (var i = 0; i < children.length; i++) {
-        if (children[i] != null && children[i] is List) {
-          containedLists = true;
-          final list = children.removeAt(i);
+        if (children[i] != null) {
+          final child = children[i];
+          if (child is Iterable) {
+            final list = child.toList();
+            children.removeAt(i);
+            flattened = false;
 
-          // Insert all items of this list at this position,
-          // and move the index forward.
-          children.insertAll(i, list);
-          i += list.length - 1;
+            // Insert all items at this position and move the index forward.
+            children.insertAll(i, list);
+            i += list.length - 1;
+          }
         }
       }
     }
