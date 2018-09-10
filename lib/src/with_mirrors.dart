@@ -10,20 +10,6 @@ class ElementBuilder {
 
   ElementBuilder(this.tag, this.prepend, this.selfClosing);
 
-  String _symbolToAttributeName(Symbol sym) {
-    var name = MirrorSystem.getName(sym);
-    if (name.startsWith('_')) {
-      // A starting underscore can be used to include attributes that are
-      // also Dart keywords (such as for).
-      name = name.substring(1);
-    }
-
-    // An underscore is interpreted as dash.
-    name = name.replaceAll('_', '-');
-
-    return name;
-  }
-
   @override
   dynamic noSuchMethod(Invocation invocation) {
     final classes = new List<String>();
@@ -46,8 +32,8 @@ class ElementBuilder {
 
     // Convert named parameters to String -> String map.
     final named = invocation.namedArguments;
-    final attrs = new Map<String, String>.fromIterable(named.keys,
-        key: _symbolToAttributeName, value: (sym) => named[sym].toString());
+    final attrs = new Map<String, String>.fromEntries(named.entries
+        .map((e) => new MapEntry(_symbolToAttributeName(e.key), '${e.value}')));
 
     // Add parsed ID and classes to attributes.
     if (id != null && id.isNotEmpty) {
@@ -95,6 +81,19 @@ class ElementBuilder {
       return selfClosing ? '$prepend<$open>' : '$prepend<$open></$tag>';
     }
   }
+}
+
+/// Convert [symbol] to HTML tag attribute name.
+String _symbolToAttributeName(Symbol symbol) {
+  var name = MirrorSystem.getName(symbol);
+  if (name.startsWith('_')) {
+    // A starting underscore can be used to include attributes that are
+    // also Dart keywords (such as for).
+    name = name.substring(1);
+  }
+
+  // An underscore is interpreted as dash.
+  return name.replaceAll('_', '-');
 }
 
 // Element builders for regular elements.
