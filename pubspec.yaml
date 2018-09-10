@@ -1,5 +1,5 @@
 name:         htgen
-version:      0.0.3
+version:      0.0.3+1
 author:       Herman Bergwerf <hermanbergwerf@gmail.com>
 description:  Functions for generating HTML
 homepage:     https://github.com/bergwerf/htgen
