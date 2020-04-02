@@ -92,7 +92,6 @@ linter:
   - parameter_assignments
   - prefer_adjacent_string_concatenation
   - prefer_asserts_in_initializer_lists
-  - prefer_bool_in_asserts
 
   # I prefer using the class constructor to create empty instances.
   #- prefer_collection_literals
@@ -123,9 +122,11 @@ linter:
 
   - recursive_getters
   - slash_for_doc_comments
-  - sort_constructors_first
+
+  # Put variables before constructors
+  # - sort_constructors_first
+
   - sort_unnamed_constructors_first
-  - super_goes_last
 
   # Infer types as much as possible, for example from a base class.
   #- type_annotate_public_apis

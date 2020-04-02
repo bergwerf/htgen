@@ -1,5 +1,5 @@
 name:         htgen
-version:      0.0.4
+version:      0.0.5
 author:       Herman Bergwerf <hermanbergwerf@gmail.com>
 description:  Functions for generating HTML
 homepage:     https://github.com/bergwerf/htgen
@@ -7,7 +7,6 @@ environment:
   sdk:        '>=2.0.0-dev <3.0.0'
 
 dev_dependencies:
-  test: ^1.3.0
+  test: any
   build_runner: any
   build_web_compilers: any
-

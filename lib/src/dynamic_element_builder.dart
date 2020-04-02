@@ -84,8 +84,29 @@ typedef T ElementBuilder<T>(pArgs,
 /// Create element builder.
 ElementBuilder<T> _getElementBuilder<T extends Element>(String tag) {
   return (pArgs,
-      {Map<String, String> attrs, List<Element> c, EventListener onClick}) {
-    final element = _createElement(new Element.tag(tag), pArgs, attrs, c);
+      {String alt,
+      String href,
+      String id,
+      String src,
+      String title,
+      Map<String, String> attrs,
+      EventListener onClick,
+      c}) {
+    final content = c is List ? c : [c];
+    attrs ??= {};
+    if (href != null) {
+      attrs['href'] = href;
+    }
+    if (id != null) {
+      attrs['id'] = id;
+    }
+    if (src != null) {
+      attrs['src'] = src;
+    }
+    if (title != null) {
+      attrs['title'] = title;
+    }
+    final element = _createElement(new Element.tag(tag), pArgs, attrs, content);
     if (onClick != null) {
       element.onClick.listen(onClick);
     }
