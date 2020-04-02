@@ -85,8 +85,8 @@ typedef T ElementBuilder<T>(pArgs,
     String src,
     String title,
     Map<String, String> attrs,
-    List<Element> c,
-    EventListener onClick});
+    EventListener onClick,
+    c});
 
 /// Create element builder.
 ElementBuilder<T> _getElementBuilder<T extends Element>(String tag) {
@@ -99,7 +99,7 @@ ElementBuilder<T> _getElementBuilder<T extends Element>(String tag) {
       Map<String, String> attrs,
       EventListener onClick,
       c}) {
-    final content = c is List ? c : [c];
+    final content = (c is List ? c : [c]).cast<Node>();
     attrs ??= {};
     if (href != null) {
       attrs['href'] = href;
